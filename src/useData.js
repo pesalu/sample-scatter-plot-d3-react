@@ -6,7 +6,7 @@ export const useData = () => {
   const [data, setData] = useState(null);
   useEffect(() => {
     fetchIrisData().then((data) => {
-      console.log("IRIS: ", data);
+      console.log(">> ", data);
       setData(data);
     });
   }, []);
