@@ -1,5 +1,18 @@
 import axios from "axios";
 import { csv, csvParse, range } from "d3";
+import irisData from "./demodata/iris.csv";
+
+export const fetchIrisData = async () => {
+  const prepareRow = (d) => {
+    console.log(d);
+    d["sepal.length"] = +d["sepal.length"];
+    d["sepal.width"] = +d["sepal.width"];
+    d["petal.length"] = +d["petal.length"];
+    d["petal.width"] = +d["petal.width"];
+    return d;
+  };
+  return await csv(irisData, prepareRow);
+};
 
 export const fetchWorldPopulation = async () => {
   const url =

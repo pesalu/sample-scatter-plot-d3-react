@@ -1,5 +1,5 @@
 {
-  "name": "sample-bar-chart-world-population",
+  "name": "sample-scatter-plot-iris-data",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
