@@ -14,7 +14,11 @@ export function DropdownMenu({
       <Select
         className={styles["select-component"]}
         options={options}
-        defaultValue={[options.find((option) => option[selectedValue])]}
+        defaultValue={[
+          options.find((option) => {
+            return option.value === selectedValue ? option : null;
+          }),
+        ]}
         onChange={({ value }) => onSelectedValueChange(value)}
       />
     </div>

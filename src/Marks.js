@@ -1,11 +1,16 @@
 export const Marks = ({
   data,
   xScale,
-  yScale,
   xValue,
+  yScale,
   yValue,
+  colorScale,
+  colorValue,
   tooltipFormat,
   circleRadius = 10,
+  mouseOverHandler,
+  mouseMoveHandler,
+  mouseOutHandler,
 }) =>
   data.map((d, idx) => (
     <circle
@@ -13,7 +18,11 @@ export const Marks = ({
       className="mark"
       cx={xScale(xValue(d))}
       cy={yScale(yValue(d))}
+      fill={colorScale(colorValue(d))}
       r={circleRadius}
+      onMouseOver={mouseOverHandler}
+      onMouseMove={mouseMoveHandler}
+      onMouseOut={mouseOutHandler}
     >
       <title>{tooltipFormat(xValue(d))}</title>
     </circle>

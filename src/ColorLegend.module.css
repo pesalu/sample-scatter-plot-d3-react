@@ -1,0 +1,9 @@
+.legend-label {
+  font-size: 1.4em;
+  fill: #635f5d;
+}
+
+.tick {
+  fill: #635f5d;
+  cursor: default;
+}
