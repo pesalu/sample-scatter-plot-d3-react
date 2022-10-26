@@ -1,8 +1,16 @@
-label,
-select {
-  font-size: 1.2rem;
+.menu-container {
+  display: flex;
+  align-items: center;
 }
 
-select option {
-  font-size: 1.2rem;
+.dropdown-label {
+  margin-left: 10px;
+  margin-right: 5px;
+  font-size: 1.5em;
+  color: #635f5d;
+}
+
+.select-component {
+  width: 10rem;
+  display: inline-block;
 }

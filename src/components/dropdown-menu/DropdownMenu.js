@@ -1,4 +1,5 @@
-import { styles } from "./DropdownMenu.module.css";
+import styles from "./DropdownMenu.module.css";
+import Select from "react-select";
 
 export function DropdownMenu({
   id,
@@ -8,20 +9,14 @@ export function DropdownMenu({
   onSelectedValueChange,
 }) {
   return (
-    <>
-      <label for={id}>{label}</label>
-      <select
-        name="pets"
-        id={id}
-        onChange={(event) => onSelectedValueChange(event.target.value)}
-      >
-        <option value="">--Please choose an option--</option>
-        {options.map(({ value, label }) => (
-          <option value={value} selected={value === selectedValue}>
-            {label}
-          </option>
-        ))}
-      </select>
-    </>
+    <div className={styles["menu-container"]}>
+      <span className={styles["dropdown-label"]}>{label}</span>
+      <Select
+        className={styles["select-component"]}
+        options={options}
+        defaultValue={[options.find((option) => option[selectedValue])]}
+        onChange={({ value }) => onSelectedValueChange(value)}
+      />
+    </div>
   );
 }

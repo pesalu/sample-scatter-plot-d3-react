@@ -7,6 +7,8 @@ import { Marks } from "./Marks";
 import { DropdownMenu } from "./components/dropdown-menu/DropdownMenu";
 import { useState } from "react";
 
+import styles from "./MenusContainer.module.css";
+
 const aspectRatio = 960 / 500;
 
 const height = 500;
@@ -35,6 +37,8 @@ function App() {
     return <pre>Loading...</pre>;
   }
 
+  console.log("X: ", xAttribute);
+
   const { attributes } = data;
   const getLabel = (labelId) => {
     let attribute = attributes.find((attribute) => attribute.value === labelId);
@@ -56,21 +60,21 @@ function App() {
     .range([0, innerHeight]);
 
   return (
-    <div>
-      <DropdownMenu
-        id={"x-select"}
-        label={"X: "}
-        options={attributes}
-        selectedValue={xAttribute}
-        onSelectedValueChange={setXAttribute}
-      />
-      <DropdownMenu
-        id={"y-select"}
-        label={"Y: "}
-        options={attributes}
-        selectedValue={yAttribute}
-        onSelectedValueChange={setYAttribute}
-      />
+    <div className={styles["graph-menu-container"]}>
+      <div className={styles["menus-container"]}>
+        <DropdownMenu
+          label={"X"}
+          options={attributes}
+          selectedValue={xAttribute}
+          onSelectedValueChange={setXAttribute}
+        />
+        <DropdownMenu
+          label={"Y"}
+          options={attributes}
+          selectedValue={yAttribute}
+          onSelectedValueChange={setYAttribute}
+        />
+      </div>
       <svg width={width} height={height}>
         <g transform={`translate(${margin.left}, ${margin.top})`}>
           <AxisBottom
