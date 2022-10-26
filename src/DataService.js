@@ -11,11 +11,9 @@ export const fetchIrisData = async () => {
     return d;
   };
   let modifiedIrisData = await csv(irisData, prepareRow);
-  console.log(modifiedIrisData);
   let attributes = await modifiedIrisData.columns.map((attribute) => {
     return { value: attribute, label: attribute.split(".").join(" ") };
   });
-  console.log("ATTR: ", attributes);
   modifiedIrisData["attributes"] = attributes;
   return modifiedIrisData;
 };

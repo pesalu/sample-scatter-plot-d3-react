@@ -6,6 +6,9 @@ export const ColorLegend = ({
   tickSpacing = 20,
   tickSize = 10,
   tickTextOffset = 20,
+  onHover,
+  hoveredValue,
+  fadeOpacity = 0.2,
 }) => {
   return (
     <>
@@ -14,7 +17,18 @@ export const ColorLegend = ({
       </text>
       {colorScale.domain().map((domainValue, idx) => {
         return (
-          <g transform={`translate(0, ${idx * tickSpacing})`}>
+          <g
+            transform={`translate(0, ${idx * tickSpacing})`}
+            onMouseEnter={(e) => {
+              onHover(domainValue);
+            }}
+            onMouseOut={(e) => {
+              onHover(null);
+            }}
+            opacity={
+              hoveredValue && domainValue !== hoveredValue ? fadeOpacity : 1
+            }
+          >
             <circle fill={colorScale(domainValue)} r={tickSize}></circle>
             <text className={styles["tick"]} x={tickTextOffset} dy="0.32em">
               {domainValue}

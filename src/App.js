@@ -27,9 +27,9 @@ const initialYAttribute = "sepal.length";
 const circleRadius = 7;
 const colorLegendLabel = "Species";
 
+const fadeOpacity = 0.5;
 function App() {
   const data = useData();
-  console.log("DA ", data);
 
   const [xAttribute, setXAttribute] = useState(initialXAttribute);
   const xValue = (d) => d[xAttribute];
@@ -37,13 +37,15 @@ function App() {
   const [yAttribute, setYAttribute] = useState(initialYAttribute);
   const yValue = (d) => d[yAttribute];
 
+  const [hoveredValue, setHoveredValue] = useState(null);
+
   const colorValue = (d) => d["variety"];
 
   if (!data) {
     return <pre>Loading...</pre>;
   }
 
-  console.log("X: ", xAttribute);
+  const filteredData = data.filter((d) => hoveredValue === colorValue(d));
 
   const { attributes } = data;
   const getLabel = (labelId) => {
@@ -126,10 +128,26 @@ function App() {
               tickSpacing={25}
               tickTextOffset={20}
               tickSize={circleRadius}
+              onHover={setHoveredValue}
+              hoveredValue={hoveredValue}
+              fadeOpacity={fadeOpacity}
+            />
+          </g>
+          <g opacity={hoveredValue ? fadeOpacity : 1}>
+            <Marks
+              data={data}
+              xScale={xScale}
+              xValue={xValue}
+              yScale={yScale}
+              yValue={yValue}
+              colorScale={colorScale}
+              colorValue={colorValue}
+              tooltipFormat={xAxisTickFormat}
+              circleRadius={circleRadius}
             />
           </g>
           <Marks
-            data={data}
+            data={filteredData}
             xScale={xScale}
             xValue={xValue}
             yScale={yScale}
