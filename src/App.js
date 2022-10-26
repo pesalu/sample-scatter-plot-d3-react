@@ -1,10 +1,11 @@
 import "./App.css";
-import { scaleLinear, extent, format, scaleOrdinal } from "d3";
+import { scaleLinear, extent, format, scaleOrdinal, select } from "d3";
 import { useData } from "./useData";
 import { AxisBottom } from "./AxisBottom";
 import { AxisLeft } from "./AxisLeft";
 import { Marks } from "./Marks";
 import { ColorLegend } from "./ColorLegend";
+import { Tooltip } from "./components/tooltip/Tooltip";
 import { DropdownMenu } from "./components/dropdown-menu/DropdownMenu";
 import { useState } from "react";
 
@@ -28,6 +29,7 @@ const circleRadius = 7;
 const colorLegendLabel = "Species";
 
 const fadeOpacity = 0.5;
+
 function App() {
   const data = useData();
 
@@ -38,13 +40,14 @@ function App() {
   const yValue = (d) => d[yAttribute];
 
   const [hoveredValue, setHoveredValue] = useState(null);
-
+  const [hoveredDatapoint, setHoveredDatapoint] = useState(null);
   const colorValue = (d) => d["variety"];
 
   if (!data) {
     return <pre>Loading...</pre>;
   }
 
+  console.log("DP: ", hoveredDatapoint);
   const filteredData = data.filter((d) => hoveredValue === colorValue(d));
 
   const { attributes } = data;
@@ -70,6 +73,15 @@ function App() {
     .domain(data.map(colorValue))
     .range(["#E6842A", "#137B80", "#8E6C8A"]);
 
+  let mouseOverHandler = (e) => {
+    setHoveredDatapoint({
+      x: e.pageX,
+      y: e.pageY,
+      xDomainValue: format(".2s")(xScale.invert(e.target.attributes.cx.value)),
+      yDomainValue: format(".2s")(yScale.invert(e.target.attributes.cy.value)),
+    });
+  };
+
   return (
     <div className={styles["graph-menu-container"]}>
       <div className={styles["menus-container"]}>
@@ -86,6 +98,17 @@ function App() {
           onSelectedValueChange={setYAttribute}
         />
       </div>
+
+      <Tooltip
+        id={"tooltip"}
+        position={hoveredDatapoint || { x: 0, y: 0 }}
+        xLabel={xAxisLabel}
+        yLabel={yAxisLabel}
+        xDomainValue={hoveredDatapoint && hoveredDatapoint.xDomainValue}
+        yDomainValue={hoveredDatapoint && hoveredDatapoint.yDomainValue}
+        visibility={hoveredDatapoint ? "visible" : "hidden"}
+      />
+
       <svg width={width} height={height}>
         <g transform={`translate(${margin.left}, ${margin.top})`}>
           <AxisBottom
@@ -144,6 +167,12 @@ function App() {
               colorValue={colorValue}
               tooltipFormat={xAxisTickFormat}
               circleRadius={circleRadius}
+              mouseOverHandler={mouseOverHandler}
+              mouseMoveHandler={mouseOverHandler}
+              mouseOutHandler={(e) => {
+                setHoveredDatapoint(null);
+                console.log("I'm out");
+              }}
             />
           </g>
           <Marks
