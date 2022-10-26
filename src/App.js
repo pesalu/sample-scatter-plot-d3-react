@@ -22,7 +22,7 @@ const yAxisLabelOffset = 50;
 
 const tickOffset = 10;
 
-const initialXAttribute = "sepal.length";
+const initialXAttribute = "sepal.width";
 const initialYAttribute = "sepal.length";
 const circleRadius = 7;
 const colorLegendLabel = "Species";
