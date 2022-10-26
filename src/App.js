@@ -4,6 +4,7 @@ import { useData } from "./useData";
 import { AxisBottom } from "./AxisBottom";
 import { AxisLeft } from "./AxisLeft";
 import { Marks } from "./Marks";
+import { ColorLegend } from "./ColorLegend";
 import { DropdownMenu } from "./components/dropdown-menu/DropdownMenu";
 import { useState } from "react";
 
@@ -13,7 +14,7 @@ const aspectRatio = 960 / 500;
 
 const height = 500;
 const width = height * aspectRatio;
-const margin = { top: 20, right: 30, bottom: 70, left: 100 };
+const margin = { top: 20, right: 200, bottom: 70, left: 100 };
 const innerHeight = height - margin.top - margin.bottom;
 const innerWidth = width - margin.left - margin.right;
 const xAxisLabelOffset = 40;
@@ -23,6 +24,9 @@ const tickOffset = 10;
 
 const initialXAttribute = "sepal.length";
 const initialYAttribute = "sepal.length";
+const circleRadius = 7;
+const colorLegendLabel = "Species";
+
 function App() {
   const data = useData();
   console.log("DA ", data);
@@ -111,6 +115,19 @@ function App() {
           >
             {yAxisLabel}
           </text>
+          <g
+            transform={`translate(${innerWidth + margin.right / 3}, ${
+              innerHeight / 3
+            })`}
+          >
+            <ColorLegend
+              colorLegendLabel={colorLegendLabel}
+              colorScale={colorScale}
+              tickSpacing={25}
+              tickTextOffset={20}
+              tickSize={circleRadius}
+            />
+          </g>
           <Marks
             data={data}
             xScale={xScale}
@@ -120,7 +137,7 @@ function App() {
             colorScale={colorScale}
             colorValue={colorValue}
             tooltipFormat={xAxisTickFormat}
-            circleRadius={7}
+            circleRadius={circleRadius}
           />
         </g>
       </svg>
