@@ -1,5 +1,5 @@
 import "./App.css";
-import { scaleLinear, extent, format } from "d3";
+import { scaleLinear, extent, format, scaleOrdinal } from "d3";
 import { useData } from "./useData";
 import { AxisBottom } from "./AxisBottom";
 import { AxisLeft } from "./AxisLeft";
@@ -33,6 +33,8 @@ function App() {
   const [yAttribute, setYAttribute] = useState(initialYAttribute);
   const yValue = (d) => d[yAttribute];
 
+  const colorValue = (d) => d["variety"];
+
   if (!data) {
     return <pre>Loading...</pre>;
   }
@@ -58,6 +60,9 @@ function App() {
   const yScale = scaleLinear()
     .domain(extent(data, yValue))
     .range([0, innerHeight]);
+  const colorScale = scaleOrdinal()
+    .domain(data.map(colorValue))
+    .range(["#E6842A", "#137B80", "#8E6C8A"]);
 
   return (
     <div className={styles["graph-menu-container"]}>
@@ -109,9 +114,11 @@ function App() {
           <Marks
             data={data}
             xScale={xScale}
-            yScale={yScale}
             xValue={xValue}
+            yScale={yScale}
             yValue={yValue}
+            colorScale={colorScale}
+            colorValue={colorValue}
             tooltipFormat={xAxisTickFormat}
             circleRadius={7}
           />
