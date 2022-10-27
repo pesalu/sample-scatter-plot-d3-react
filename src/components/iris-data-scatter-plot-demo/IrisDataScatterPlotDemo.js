@@ -1,37 +1,37 @@
 import { scaleLinear, extent, format, scaleOrdinal, select, color } from "d3";
 import { useData } from "./useData";
 import { DropdownMenu } from "../dropdown-menu/DropdownMenu";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 
 import styles from "./MenusContainer.module.css";
 import { ScatterPlot } from "../scatter-plot/ScatterPlot";
-
-const aspectRatio = 960 / 500;
-export const height = 500;
-export const width = height * aspectRatio;
-export const margin = { top: 20, right: 200, bottom: 70, left: 80 };
-export const innerHeight = height - margin.top - margin.bottom;
-export const innerWidth = width - margin.left - margin.right;
-
-const plotConfiguration = {
-  aspectRatio,
-  height,
-  width: height * aspectRatio,
-  margin,
-  innerHeight,
-  innerWidth,
-  xAxisLabelOffset: 50,
-  yAxisLabelOffset: 50,
-  tickOffset: 10,
-  circleRadius: 7,
-  fadeOpacity: 0.5,
-};
 
 const colorLegendLabel = "Species";
 const initialXAttribute = "sepal.width";
 const initialYAttribute = "sepal.length";
 
-function IrisDataScatterPlotDemo() {
+function IrisDataScatterPlotDemo({ width, height }) {
+  // const aspectRatio = 960 / 500;
+
+  // let aspectRatio = width / height;
+  const margin = { top: 20, right: 200, bottom: 70, left: 80 };
+  const innerHeight = height - margin.top - margin.bottom;
+  const innerWidth = width - margin.left - margin.right;
+
+  // aspectRatio,
+  const plotConfiguration = {
+    height,
+    width,
+    margin,
+    innerHeight,
+    innerWidth,
+    xAxisLabelOffset: 50,
+    yAxisLabelOffset: 50,
+    tickOffset: 10,
+    circleRadius: 7,
+    fadeOpacity: 0.5,
+  };
+
   const data = useData();
 
   const [xAttribute, setXAttribute] = useState(initialXAttribute);
@@ -99,6 +99,7 @@ function IrisDataScatterPlotDemo() {
         />
       </div>
 
+      {/* <div ref={svgContainer} style={{ height: "70vh" }}> */}
       <ScatterPlot
         data={data}
         xValue={xValue}
@@ -119,6 +120,7 @@ function IrisDataScatterPlotDemo() {
         hoveredDatapoint={hoveredDatapoint}
         plotConfiguration={plotConfiguration}
       ></ScatterPlot>
+      {/* </div> */}
     </div>
   );
 }
