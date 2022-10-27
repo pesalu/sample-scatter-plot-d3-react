@@ -4,6 +4,9 @@
   gap: 1rem;
   margin: 1rem;
   padding: 1rem;
+
+  background: #eee;
+  border-radius: 9px;
 }
 
 .menus-container {

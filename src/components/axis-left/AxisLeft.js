@@ -1,12 +1,12 @@
+import styles from "./AxisLeft.module.css";
+
 export const AxisLeft = ({ yScale, innerWidth, tickOffset = 5 }) =>
-  yScale.ticks().map((tickValue) => (
-    <g className="tick" transform={`translate(0, ${yScale(tickValue)})`}>
-      {/* <line
-        x1={0}
-        y1={yScale(tickValue)}
-        x2={innerWidth}
-        y2={yScale(tickValue)}
-      /> */}
+  yScale.ticks().map((tickValue, idx) => (
+    <g
+      key={idx}
+      className={styles["tick"]}
+      transform={`translate(0, ${yScale(tickValue)})`}
+    >
       <line x2={innerWidth} />
       <text
         key={tickValue}
