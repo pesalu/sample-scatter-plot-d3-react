@@ -1,3 +1,5 @@
+import styles from "./AxisBottom.module.css";
+
 export const AxisBottom = ({
   xScale,
   innerHeight,
@@ -6,7 +8,7 @@ export const AxisBottom = ({
 }) =>
   xScale.ticks().map((tickValue) => (
     <g
-      className="tick"
+      className={styles["tick"]}
       key={tickValue}
       transform={`translate(${xScale(tickValue)}, 0)`}
     >
