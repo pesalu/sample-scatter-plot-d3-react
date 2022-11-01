@@ -10,15 +10,28 @@ const colorLegendLabel = "Species";
 const initialXAttribute = "sepal.width";
 const initialYAttribute = "sepal.length";
 
-function IrisDataScatterPlotDemo({ width, height }) {
-  // const aspectRatio = 960 / 500;
+function IrisDataScatterPlotDemo() {
+  const [width, setWidth] = useState(null);
+  const [height, setHeight] = useState(null);
+  let svgContainerRef = useRef(null);
 
-  // let aspectRatio = width / height;
+  // Monitor the size of div containing the
+  // svg to enable responsiveness
+  useEffect(() => {
+    const resizeObserver = new ResizeObserver((event) => {
+      setWidth(event[0].contentBoxSize[0].inlineSize);
+      setHeight(event[0].contentBoxSize[0].blockSize);
+    });
+
+    if (svgContainerRef.current) {
+      resizeObserver.observe(svgContainerRef.current);
+    }
+  }, [svgContainerRef]);
+
   const margin = { top: 20, right: 200, bottom: 70, left: 80 };
   const innerHeight = height - margin.top - margin.bottom;
   const innerWidth = width - margin.left - margin.right;
 
-  // aspectRatio,
   const plotConfiguration = {
     height,
     width,
@@ -45,14 +58,20 @@ function IrisDataScatterPlotDemo({ width, height }) {
   const colorValue = (d) => d["variety"];
 
   if (!data) {
-    return <pre>Loading...</pre>;
+    console.log("RENDERING 1");
+    return (
+      <div ref={svgContainerRef} className={styles["graph-menu-container"]}>
+        <pre>Loading...</pre>;
+      </div>
+    );
   }
 
   const filteredData = data.filter((d) => hoveredValue === colorValue(d));
 
   const { attributes } = data;
   const getLabel = (labelId) => {
-    let attribute = attributes.find((attribute) => attribute.value === labelId);
+    let attribute =
+      attributes && attributes.find((attribute) => attribute.value === labelId);
     return attribute && attribute.label;
   };
 
@@ -83,7 +102,8 @@ function IrisDataScatterPlotDemo({ width, height }) {
   };
 
   return (
-    <div className={styles["graph-menu-container"]}>
+    <div ref={svgContainerRef} className={styles["graph-menu-container"]}>
+      {console.log("RENDERING 2")}
       <div className={styles["menus-container"]}>
         <DropdownMenu
           label={"X"}
@@ -98,8 +118,6 @@ function IrisDataScatterPlotDemo({ width, height }) {
           onSelectedValueChange={setYAttribute}
         />
       </div>
-
-      {/* <div ref={svgContainer} style={{ height: "70vh" }}> */}
       <ScatterPlot
         data={data}
         xValue={xValue}
@@ -120,7 +138,6 @@ function IrisDataScatterPlotDemo({ width, height }) {
         hoveredDatapoint={hoveredDatapoint}
         plotConfiguration={plotConfiguration}
       ></ScatterPlot>
-      {/* </div> */}
     </div>
   );
 }
