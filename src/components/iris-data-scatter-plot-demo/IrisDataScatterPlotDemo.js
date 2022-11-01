@@ -28,7 +28,7 @@ function IrisDataScatterPlotDemo() {
     }
   }, [svgContainerRef]);
 
-  const margin = { top: 20, right: 80, bottom: 70, left: 50 };
+  const margin = { top: 10, right: 120, bottom: 110, left: 70 };
   const innerHeight = height - margin.top - margin.bottom;
   const innerWidth = width - margin.left - margin.right;
 

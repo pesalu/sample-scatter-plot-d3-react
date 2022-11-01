@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 import "./App.css";
 // import IrisDataScatterPlotDemo from "./components/iris-data-scatter-plot-demo/IrisDataScatterPlotDemo";
-import ResponsivePlotContainer from "./components/PlotContainer";
+import PlotContainer from "./components/dashboard/PlotContainer";
 
 const App = () => {
-  return <ResponsivePlotContainer />;
+  return <PlotContainer />;
 };
 export default App;
